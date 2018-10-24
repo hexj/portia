@@ -1,9 +1,12 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 WORKDIR /app/slyd
+
+COPY ./docker/source.list /etc/apt/sources.list
 
 ENV PATH="/opt/qt59/5.9.1/gcc_64/bin:${PATH}"
 ENV DEBIAN_FRONTEND noninteractive
-ENV QT_MIRROR http://ftp.fau.de/qtproject/official_releases/qt/5.9/5.9.1/qt-opensource-linux-x64-5.9.1.run
+# ENV QT_MIRROR http://ftp.fau.de/qtproject/official_releases/qt/5.9/5.9.1/qt-opensource-linux-x64-5.9.1.run
+ENV QT_MIRROR http://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/qt/5.9/5.9.1/qt-opensource-linux-x64-5.9.1.run
 
 COPY docker/portia.conf /app/portia.conf
 COPY docker/qt_install.qs /app/script.qs
@@ -12,6 +15,7 @@ COPY slybot/requirements.txt /app/slybot/requirements.txt
 COPY slyd/requirements.txt /app/slyd/requirements.txt
 COPY portia_server/requirements.txt /app/portia_server/requirements.txt
 
+RUN apt-get update && apt-get install -y wget apt-utils && apt-get install -y dirmngr --install-recommends
 RUN /app/provision.sh prepare_install && \
     /app/provision.sh install_deps && \
     /app/provision.sh install_qtwebkit_deps && \

@@ -74,10 +74,11 @@ prepare_install () {
     sed 's/main$/main universe/' -i /etc/apt/sources.list
     apt-get update
     apt-get install -y --no-install-recommends \
-        curl \
+        curl wget apt-utils ca-certificates \
         software-properties-common \
         apt-transport-https \
         python3-software-properties
+    apt-get install -y dirmngr --install-recommends
 }
 
 install_deps () {

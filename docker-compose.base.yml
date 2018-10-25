@@ -1,0 +1,8 @@
+version: '3'
+services:
+  ubuntubase:
+    container_name: ubuntubase
+    image: ubuntubase
+    build: 
+      context: .
+      dockerfile: Dockerfile.base
